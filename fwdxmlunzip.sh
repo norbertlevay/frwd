@@ -3,7 +3,8 @@
 if test $# -eq 0
 then
  cmdn=$(basename  $0 )
- echo -e "\nUsage: $cmdn file(s).fwd.xml.zip\n"
+ echo -e "Version: 0.1.0"
+ echo -e "Usage:\n\t$cmdn file(s).fwd.xml.zip\n"
  exit
 fi
 

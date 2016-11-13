@@ -18,3 +18,6 @@ clean :
 	rm $(PROG)
 
 
+install:
+	sudo install fwd2xml fwdxmlunzip.sh /usr/local/bin
+
