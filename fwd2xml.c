@@ -485,7 +485,7 @@ int new_filename(char * path){
 
 // Version 0.9 (and not 1.0) because error handling is missing
 void print_usage(void){
-    printf("fwd2xml version: 0.9\n");
+    printf("fwd2xml version: 0.9.0\n");
 //    printf("\n");
     printf("Usage: \n");
     printf("  fwd2xml somefile(s).fwd\n");
