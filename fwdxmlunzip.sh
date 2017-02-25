@@ -17,5 +17,5 @@ fi
 for fn in $@
 do
 bfn=$(basename $fn)
-unzip -p $1 > "${bfn%.*}"
+unzip -p $fn > "${bfn%.*}"
 done
