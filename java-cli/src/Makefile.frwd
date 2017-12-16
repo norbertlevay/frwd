@@ -1,0 +1,74 @@
+## notes:
+cpw='C:\\Program Files\\FRWD Replayer'
+wfrwdpath="C:\\Program files\\FRWD Replayer\\"
+wdllpath=$(winepath -w $(dllpath))
+dllpath="C:\\windows\\system32;C:\\Program Files\\FRWD Replayer"
+fjdk=$(cp)/JRE/bin
+clp=".;./*;$(dllpath)"
+wroot="Z:\\home\\robi\\frwd\\src"
+####################################
+
+frwd=/home/robi/.wine/drive_c/Program\ Files/FRWD\ Replayer
+fjre=$(frwd)/JRE/bin
+
+wjdk=/home/robi/.wine/drive_c/Program\ Files/Java/jdk1.5.0_05/bin
+root=/home/robi/frwd/src
+
+jc=wine $(wjdk)/javac.exe
+jh=wine $(wjdk)/javah.exe
+jx=wine $(wjdk)/java.exe
+#jx=wine $(fjre)/java.exe
+
+targets=NativeDevice.class frwd.class progress.class
+
+all : $(targets)
+
+hhelp:
+	$(jh) -help
+
+header :
+	$(jh) -d . -classpath $(root) business.device.NativeDevice
+
+NativeDevice.class : NativeDevice.java
+	$(jc) NativeDevice.java
+
+frwd.class : frwd.java
+	$(jc) -classpath $(root) frwd.java
+
+progress.class : progress.java
+	$(jc) -classpath $(root) progress.java
+
+clean :
+	rm -f $(targets) 
+
+jar:
+	make -C ../..
+#	cd ../..
+#	$(wjdk)/jar.exe cfm frwd-cmdline.jar META-INF/MANIFEST.MF business/device/NativeDevice.class business/device/frwd.class
+#	cd -
+
+run :
+	$(jx) -Djava.library.path=. -cp $(root) business.device.NativeDevice 1
+
+runfrwdinfo :
+	$(jx) -Djava.library.path=. -cp $(root) business.device.frwd info
+
+runfrwdgetlog :
+	$(jx) -Djava.library.path=. -cp $(root) business.device.frwd getlog 2
+
+resetdriver:
+	sudo modprobe -r usbhid
+	sudo modprobe -r cypress_m8
+	sudo modprobe cypress_m8
+	dmesg | tail
+
+listFRWD:
+	unzip -l FRWD.jar 
+
+dumpdevicedllimports:
+	winedump dump -j import device.dll
+	
+dumpdevicedllexports:
+	winedump dump -j export device.dll
+	#winedump dump -x device.dll
+

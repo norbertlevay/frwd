@@ -1,0 +1,64 @@
+
+FRWD_CmdLine is a windows appliation.
+In linux runs under wine. 
+
+unzip FRWD_CmdLine to "Program Files" directory.
+
+In linux: edit frwd script to add full path to install directory.
+and place the script somewhere into PATH.
+
+OR
+
+system wide settings needed:
+-- device.dll and other dlls must be is system Path inside Registry!
+-- java.exe from jre must be in wine/windows PATH (in Registry?)
+-- jre java.exe must find frwd-cmdline.jar
+
+NOTE:
+Registry can be added from commadn line in wine (claims Windows comaptinility):
+
+wine regedit /E here.log
+
+for instance this exports all registry into here.log
+
+From winetricks manual:
+DLLs usually get loaded in the following order: 
+1. The directory the program was started from. 
+2. The current directory. 
+3. The Windows system directory. 
+4. The Windows directory. 
+5. The PATH variable directories.
+
+Also from winehq:
+Wine passes all linux environment settings to windows.
+Except those which have the same name in linux too:
+PATH TEMP SYSTEM <-Those must be set in registry:
+To set them you should launch wine regedit and then go to the 
+
+HKEY_CURRENT_USER/Environment
+key. Now you can create or modify the values of the variables you need 
+
+"System" = "c:\\windows\\system"
+This sets up where the Windows system files are. The Windows system directory should reside below the directory used for the Windows setting. Thus when using /usr/local/wine_c_windows as Windows path, the system directory would be /usr/local/wine_c/windows/system. It must be set with no trailing slash, and you must be sure that you have write access to it. 
+
+"Temp" = "c:\\temp"
+This should be the directory you want your temp files stored in, /usr/local/wine_c/temp in our previous example. Again, no trailing slash, and write access!!! 
+
+"Path" = "c:\\windows;c:\\windows\\system;c:\\blanco"
+Behaves like the PATH setting on UNIX boxes. 
+When Wine is run like wine sol.exe, 
+if sol.exe resides in a directory specified in the Path setting, 
+Wine will run it (of course, if sol.exe resides in the 
+current directory, Wine will run that one). Make sure it always
+has your windows directory and system directory (for this setup, it must contain "c:\\windows;c:\\windows\\system").
+
+OR
+
+Wine supports the WINEPATH variable. If, in your Unix Shell, you export WINEPATH, once you launch wine it will use this to populate the PATH environment variable inside wine.
+Example:
+
+$ WINEPATH=anything\\it//willNotBeParsed wine cmd
+Wine CMD Version 5.1.2600 (1.6.2)
+
+C:\>echo %PATH%
+anything\it//willNotBeParsed;C:\windows\system32;C:\windows;C:\windows\system32\wbem
