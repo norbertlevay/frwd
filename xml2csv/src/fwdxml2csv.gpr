@@ -1,0 +1,53 @@
+--  XML/Ada library project file for use with GCC 4.3
+--  Copyright (c) 2003, 2006, 2008, 2009 Ludovic Brenta <lbrenta@debian.org>
+--
+--  This program is free software; you can redistribute it and/or modify
+--  it under the terms of the GNU General Public License as published by
+--  the Free Software Foundation; either version 3 of the License, or
+--  (at your option) any later version.
+--
+--  This program is distributed in the hope that it will be useful,
+--  but WITHOUT ANY WARRANTY; without even the implied warranty of
+--  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--  GNU General Public License for more details.
+--
+--  This project file is designed to help build applications that use
+--  XML/Ada.  Here is an example of how to use this project file:
+--
+
+
+
+-- copied from /usr/share/ada/adainclude/xmlada/xmlada.gpr
+-- edited for fwdxml2csv names
+-- edited for static linking; 
+---- to disable static linking comment out lines with -static. 
+---- Linking to dynamic binaries is default.
+
+with "xmlada";
+project fwdxml2csv is
+   for Object_Dir use "obj";
+   for Exec_Dir use ".";
+   for Library_kind use "static";
+   Package Binder is
+   	for Switches ("Ada") use ("-static");
+   end Binder;
+   Package Linker is
+   	for Linker_Options use ("-static");
+   end Linker;
+   for Main use ("fwdxml2csv");
+end fwdxml2csv;
+
+
+
+--   for Linker.Switches use "-static";
+  -- for Linker.Linker_Options use "-static";
+
+-- project XmlAda is
+--   for Library_Name use "xmlada";
+--   for Library_Dir use "/usr/lib";
+--  -- for Library_Kind use "dynamic";
+--   for Library_Kind use "static";
+--   for Source_Dirs use ("/usr/share/ada/adainclude/xmlada");
+--   for Library_ALI_Dir use "/usr/lib/ada/adalib/xmlada";
+--   for Externally_Built use "true";   
+--end XmlAda;
