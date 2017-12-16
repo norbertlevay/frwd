@@ -1,0 +1,41 @@
+
+= distVShrB / check dates: 
+
+- add check frwdDistanceVsTime m-file: timeDist both columns should be monoton increasing
+
+- Clarify distance estimates:
+-- A: FRWD Replayer graphical tables/drawings distance data
+-- B: XML file
+-- C: csv file saved directly from HW
+Seems that FRWD_Replayer gui is doing curve smoothing not present in 
+XML-file. 
+(once - see text below - also observed that csv file from HW (frwd-cli java)
+has also different disatance comapred to XML (or was it FRWD Replayer?)
+DONE - QUESTION clarified: 
+- dphbLoad(): there are duplicate entries (by date/daynumber) however
+different distance (and distPerHR): 
+these dupliates are probably saved by linux frwd-cli and
+saved in Windows FRWD Replayer (and the copied to linux):
+does original sw FRWD Replayer do some smoothing/filtering whereas 
+frwd-cli saves directly data from the logger-device ?
+ANSWER: Yes, looks so, frwd-cli based distance (simple unfiltered 
+sum of distances at each second) yields 50..70\% bigger exercise distance
+them FRWD Replayer result -> FRWD Replayer is doing some filtering 
+(Actually I had filterbank implemented in ada and that reduced the
+overestimate to from 59--70\% downto 30\% )
+
+- DONE (implemented check on filename date and manually fixed in ~10 files) 
+     increasing by date/daynumber:
+     ---- dphbLoad(distVShrB): also time column should be ordered by time,
+     but there are jumps (at indeces 18, 121 and 271) - 
+     some files have wrongly named date ?
+
+- DONE ada code, csvfile: must always write to csvfile 20 columns 
+(otherwise octave will not load)
+OR write incomplete lines as comments (with # on the begining)
+seems that there was last line without the 4 RRx values...(2009 May 20 log)
+
+- DONE also in previous case, the line had Fix marked as valid, even if no data
+harden check for meas-set validity: (fix == 1 AND siv > 0)
+
+
